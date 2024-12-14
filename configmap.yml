@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fastapi-config
+data:
+  ENVIRONMENT: development
+  APP_NAME: FastAPI Face API
+  LOG_LEVEL: debug

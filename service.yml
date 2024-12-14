@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastapi-face-api-service
+spec:
+  type: NodePort # For local development. Use LoadBalancer in production.
+  ports:
+  - port: 8000
+    targetPort: 8000
+    nodePort: 30000 # Maps to localhost:30000
+  selector:
+    app: fastapi-face-api

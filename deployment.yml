@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-face-api
+  labels:
+    app: fastapi-face-api
+spec:
+  replicas: 2 # Number of pods to run
+  selector:
+    matchLabels:
+      app: fastapi-face-api
+  template:
+    metadata:
+      labels:
+        app: fastapi-face-api
+    spec:
+      containers:
+      - name: fastapi-container
+        image: vadim1690/fastapi-face-api:latest
+        ports:
+        - containerPort: 8000
+        envFrom:
+        - configMapRef:
+            name: fastapi-config
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
