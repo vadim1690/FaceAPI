@@ -1,17 +1,38 @@
 # Use a lightweight Python image
-FROM python:3.10-slim
+FROM python:3.10.3-slim-bullseye
 
 # Install required system dependencies
-RUN apt-get update && apt-get install -y \
-    cmake \
+RUN apt-get update && apt-get install -y --fix-missing \
     build-essential \
-    libopenblas-dev \
-    liblapack-dev \
-    libx11-dev \
+    cmake \
+    gfortran \
+    git \
+    wget \
+    curl \
+    graphicsmagick \
+    libgraphicsmagick1-dev \
+    libatlas-base-dev \
+    libavcodec-dev \
+    libavformat-dev \
     libgtk2.0-dev \
+    libjpeg-dev \
+    liblapack-dev \
+    libswscale-dev \
+    libopenblas-dev \
     libboost-python-dev \
     libssl-dev \
-    && apt-get clean
+    python3-dev \
+    python3-numpy \
+    software-properties-common \
+    zip \
+    && apt-get clean && rm -rf /tmp/* /var/tmp/*
+
+# Clone and install dlib with AVX instructions enabled
+RUN cd ~ && \
+    mkdir -p dlib && \
+    git clone -b 'v19.9' --single-branch https://github.com/davisking/dlib.git dlib/ && \
+    cd dlib/ && \
+    python3 setup.py install --yes USE_AVX_INSTRUCTIONS
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
